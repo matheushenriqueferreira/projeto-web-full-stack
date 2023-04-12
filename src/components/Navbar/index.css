@@ -1,0 +1,142 @@
+header {
+  width: 100%;
+  height: 80px;
+}
+
+.navbar {
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  
+  width: 100%;
+  height: 80px;
+  background-color: #FFFFFF;
+  padding: 0 20px;
+}
+
+.navbarList {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.navbarContainer1 {
+  flex: 1;
+}
+
+.navbarContainerStyle {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  gap: 1em;
+}
+
+.sandwichMenu {
+  width: 20px;
+  height: 20px;
+}
+
+.menuOpen {
+  height: 100vh;
+}
+
+.navbarOpen {
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+}
+
+.navbarOpen > ul li {
+  display: flex;
+  align-items: center;
+  height: 55px;
+  border-bottom: 1px #F2F2F2 solid;
+}
+
+.upperCaseBold {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.borderBottom {
+  display: none;
+}
+
+.navbarOpen > div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btnDownload {
+  width: 210px;
+  height: 40px;
+  border: 2px solid #00a82d;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  color: #00a82d;
+  transition: .2s all ease-in;
+}
+
+.btnDownload:hover {
+  border-color: #00d138;
+  color: #00d138;
+  cursor: pointer;
+}
+
+.displayHidden {
+  display: none;
+}
+
+.search:hover, .login:hover {
+  cursor: pointer;
+  color: #00a82d;
+}
+
+
+@media screen and (min-width: 600px) {
+  .navbar {
+    padding: 0 40px;
+  }
+}
+
+@media screen and (min-width: 1221px) {
+  .navbar {
+    align-items: center;
+  }
+  
+  .navbarList {
+    max-width: 1220px;
+  }
+
+  .sandwichMenu, .navbarOpen {
+    display: none;
+  }
+
+  .btnDownload {
+    width: 120px;
+  }
+
+  .displayHidden {
+    display: block;
+  }
+
+  .upperCaseBold {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 3px solid transparent;
+    height: 80px;
+  }
+  
+  .upperCaseBold:hover {
+    cursor: pointer;
+    color: #00a82d;
+    border-bottom: 3px solid #00a82d;    
+  }
+}
