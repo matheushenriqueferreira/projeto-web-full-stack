@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './index.css';
 
 import Logo2 from '../../assets/logo2.svg'
 

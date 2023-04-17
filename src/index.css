@@ -25,6 +25,49 @@ main {
   text-align: center;
 }
 
+input {
+  outline: none;
+}
+
+.borderGrayStyle {
+  border: 1px solid #dfdfdf;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.registerLoginSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 3.5em;
+  width: 100%;
+  max-width: 660px;
+  height: 630px;
+  padding: 40px;
+}
+
+.registerLoginContent2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5em;
+}
+
+.registerLoginContent3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 80px;
+  border-top: 2px solid #cecece;
+}
+
+.registerLoginMessage {
+  color: #ff0000;
+  font-size: 11px;
+}
+
 @media screen and (max-width: 600px) {
   main {
     padding: 0 35px;
