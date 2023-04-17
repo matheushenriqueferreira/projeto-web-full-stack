@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-import Logo2 from '../../assets/logo2.svg'
+import Logo2 from '../../assets/logo2.svg';
 
 import Navbar from "../../components/Navbar";
-import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -39,15 +38,17 @@ const Register = () => {
             <img src={Logo2} />
           </div>
           <div className="registerLoginContent2">
-            <Input className={'registerLoginInputStyle'} type={'text'} placeholder={'Insira seu email'} value={email} setValue={setEmail} />
-            <Input className={'registerLoginInputStyle'} type={'password'} placeholder={'Insira sua senha'} value={password} setValue={setPassword} />
-            <Input className={'registerLoginInputStyle'} type={'password'} placeholder={'Confirmar senha'} value={confirmPassword} setValue={setConfirmPassword} />
-            <Input className={'registerLoginInputBtnStyle'} type={'button'} btnValue={"Cadastrar"} btnClick={fieldChecks} />
+            <input className={'registerLoginInputStyle'} type={'text'} placeholder={'Insira seu email'} value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input className={'registerLoginInputStyle'} type={'password'} placeholder={'Insira sua senha'} value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input className={'registerLoginInputStyle'} type={'password'} placeholder={'Confirmar senha'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <input className={'registerLoginInputBtnStyle'} type={'button'} value={"Cadastrar"} onClick={() => fieldChecks()} />
             <p className="registerLoginMessage">{message}</p>
           </div>
           <div className="registerLoginContent3">
             <p>Já possui uma conta?</p>
-            <Link to={'/login'}>Entrar</Link>
+            <Link to={'/login'}>
+              <p className="registerLoginLinkStyle">Entrar</p>
+            </Link>
           </div>
         </section>
       </main>

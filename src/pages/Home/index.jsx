@@ -3,8 +3,6 @@ import './index.css';
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
-import Input from '../../components/Input';
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -18,7 +16,7 @@ const Home = () => {
             <p className="homeDescription">Lembre-se de tudo e enfrente cada projeto com suas notas, tarefas e calendário, tudo no mesmo lugar.</p>
           </section>
           <section className="homeSection2">
-            <Input className={'btnRegister'} type={'button'} btnValue={'Cadastre-se Gratuitamente'} btnClick={() => navigate('/register')} />
+            <button className={'btnRegister'} type={'button'} onClick={() => navigate('/register')}>Cadastre-se Gratuitamente</button>
             <p className="linkLogin" onClick={() => navigate("/login")}>Já tem uma conta? Entre</p>
           </section>
         </article>
