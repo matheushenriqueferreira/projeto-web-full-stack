@@ -26,11 +26,29 @@ header {
   flex: 1;
 }
 
+.navLinkNormal, .navLinkActive {
+  text-decoration: none;
+  color: black;
+}
+
+.navLinkActive {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+.navLinkNormal:hover {
+  color: #00a82d;
+}
+
 .navbarContainerStyle {
   display: flex;
   align-items: center;
   height: 80px;
   gap: 1em;
+}
+
+.headerLogo:hover {
+  cursor: pointer;
 }
 
 .sandwichMenu {

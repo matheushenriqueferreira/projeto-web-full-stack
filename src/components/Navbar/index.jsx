@@ -4,6 +4,7 @@ import './index.css';
 import logo from '../../assets/logo.svg';
 import sandwichMenu from '../../assets/nav-open.svg';
 import closeMenu from '../../assets/nav-close.svg';
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
@@ -19,7 +20,9 @@ const Navbar = () => {
           <li className="navbarContainer1">
             <ul className="navbarContainerStyle">
               <li>
-                <img src={logo} />
+                <Link to={'/'}>
+                  <img className="headerLogo" src={logo} alt="Logo do site" />
+                </Link>
               </li>
               <li className="upperCaseBold borderBottom">Por que o evernote</li>
               <li className="upperCaseBold borderBottom">Recursos</li>
@@ -30,13 +33,23 @@ const Navbar = () => {
 
           <li className="navbarContainer2">
             <ul className="navbarContainerStyle">
-              <li className="displayHidden search">Pesquisar</li>
-              <li className="displayHidden login">Entrar</li>
+              <li className="displayHidden">
+                <NavLink 
+                  to={'/search'}
+                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                >Pesquisar</NavLink>
+              </li>
+              <li className="displayHidden">
+                <NavLink 
+                  to={'/login'}
+                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                >Entrar</NavLink>
+              </li>
               <li>
                 <img 
                   className="sandwichMenu" 
                   src={ menu ? closeMenu : sandwichMenu }
-                  onClick={() => { menu ? setMenu(false) : setMenu(true) }}
+                  onClick={() => { menu ? setMenu(false) : setMenu(true)}}
                 />
                 <button type="button" className="btnDownload displayHidden">Baixar</button>
               </li>
@@ -51,8 +64,18 @@ const Navbar = () => {
               <li className="upperCaseBold">Recursos</li>
               <li className="upperCaseBold">Para indivíduos</li>
               <li className="upperCaseBold">Para equipes</li>
-              <li className="upperCaseBold">Pesquisar</li>
-              <li className="upperCaseBold">Entrar</li>
+              <li className="upperCaseBold">
+                <NavLink 
+                  to={'/search'}
+                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                >Pesquisar</NavLink>
+              </li>
+              <li className="upperCaseBold">
+                <NavLink 
+                  to={'/login'}
+                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                >Entrar</NavLink>
+              </li>
             </ul>
             <div>
               <button className="btnDownload">Baixar</button>
