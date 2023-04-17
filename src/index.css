@@ -54,6 +54,22 @@ input {
   gap: 1.5em;
 }
 
+.registerLoginInputStyle, .registerLoginInputBtnStyle {
+  height: 40px;
+  border-radius: 7px;
+}
+
+.registerLoginInputStyle {
+  border: 1px solid #e6e6e6;
+  padding-left: 10px;
+}
+
+.registerLoginInputBtnStyle {
+  background-color: #00a82d;
+  border: none;
+  color: #FFFFFF;
+}
+
 .registerLoginContent3 {
   display: flex;
   flex-direction: column;
