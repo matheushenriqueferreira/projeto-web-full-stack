@@ -12,6 +12,14 @@ body {
   min-width: 350px;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: black;
+}
+
 ul {
   list-style: none;
 }
@@ -19,7 +27,7 @@ ul {
 main {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 60px;
   height: 100vh;
   padding: 0 40px;
   text-align: center;
@@ -31,7 +39,7 @@ input {
 
 .borderGrayStyle {
   border: 1px solid #dfdfdf;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
 }
 
@@ -45,6 +53,7 @@ input {
   max-width: 660px;
   height: 630px;
   padding: 40px;
+  color: #737373;
 }
 
 .registerLoginContent2 {
@@ -64,17 +73,26 @@ input {
   padding-left: 10px;
 }
 
+.registerLoginInputStyle:focus {
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.2);
+}
+
 .registerLoginInputBtnStyle {
   background-color: #00a82d;
   border: none;
   color: #FFFFFF;
   font-size: 16px;
-  transition: .2s all ease-in;
+  transition: .1s all ease-in;
 }
 
 .registerLoginInputBtnStyle:hover {
   cursor: pointer;
   background-color: #008624;
+}
+
+.registerLoginMessage {
+  color: #ff0000;
+  font-size: 11px;
 }
 
 .registerLoginContent3 {
@@ -86,9 +104,13 @@ input {
   border-top: 2px solid #cecece;
 }
 
-.registerLoginMessage {
-  color: #ff0000;
-  font-size: 11px;
+.registerLoginLinkStyle {
+  color: #00a82d;
+  transition: .2s color ease-in;
+}
+
+.registerLoginLinkStyle:hover {
+  color: #008624;
 }
 
 @media screen and (max-width: 600px) {
