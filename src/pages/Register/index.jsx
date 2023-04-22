@@ -33,7 +33,7 @@ const Register = () => {
     <>
       <Navbar />
       <main>
-        <section className="borderGrayStyle registerLoginSection">
+        <div className="borderGrayStyle registerLoginSection">
           <div className="registerLoginContent1">
             <img src={Logo2} />
           </div>
@@ -50,7 +50,7 @@ const Register = () => {
               <p className="registerLoginLinkStyle">Entrar</p>
             </Link>
           </div>
-        </section>
+        </div>
       </main>
     </>
   );

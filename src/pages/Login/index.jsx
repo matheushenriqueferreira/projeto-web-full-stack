@@ -27,7 +27,7 @@ const Login = () => {
     <>
       <Navbar />
       <main>
-        <section className="borderGrayStyle registerLoginSection">
+        <div className="borderGrayStyle registerLoginSection">
           <div className="registerLoginContent1">
             <img src={Logo2} />
           </div>
@@ -43,7 +43,7 @@ const Login = () => {
               <p className="registerLoginLinkStyle">Criar conta</p>
             </Link>
           </div>
-        </section>
+        </div>
       </main>
     </>
   );
