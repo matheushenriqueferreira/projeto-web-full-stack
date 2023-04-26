@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Logo2 from '../../assets/logo2.svg';
-
 import Navbar from "../../components/Navbar";
-import { Link } from "react-router-dom";
 
 const Register = () => {
   const [ email, setEmail ] = useState('');
@@ -11,8 +12,22 @@ const Register = () => {
   const [ confirmPassword, setConfirmPassword ] = useState('');
   const [ message, setMessage ] = useState('');
 
-  const handleRegister = () => {
-    console.log('Registrar')
+  const navigate = useNavigate();
+
+  const handlerRegister = () => {
+    const content = {
+      userEmail: email,
+      userPassword: password,
+      userConfirmPassword: confirmPassword
+    }
+
+    axios.post("http://localhost:3000/registration", content)
+    .then((resp) => {
+      setMessage(resp.data.message)
+    })
+    .catch((error) => {
+      setMessage(error.response.data.message);
+    })
   }
 
   const fieldChecks = () => {
@@ -26,7 +41,7 @@ const Register = () => {
       return;
     }
     setMessage('');
-    handleRegister();
+    handlerRegister();
   }
 
   return(
