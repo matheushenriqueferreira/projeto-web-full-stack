@@ -26,7 +26,8 @@ ul {
 
 main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   height: 100vh;
   text-align: center;
 }
@@ -91,7 +92,7 @@ input {
 
 .registerLoginMessage {
   color: #ff0000;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .registerLoginContent3 {
@@ -113,7 +114,7 @@ input {
 }
 
 @media screen and (max-width: 600px) {
-  main {
+  .paddingContent {
     padding: 0 35px;
   }
 }
