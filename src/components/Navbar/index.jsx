@@ -5,8 +5,10 @@ import logo from '../../assets/logo.svg';
 import sandwichMenu from '../../assets/nav-open.svg';
 import closeMenu from '../../assets/nav-close.svg';
 import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { token } = useSelector(state => state.user);
   const [menu, setMenu] = useState(false);
 
   useEffect(() => {
@@ -24,35 +26,49 @@ const Navbar = () => {
                   <img className="headerLogo" src={logo} alt="Logo do site" />
                 </Link>
               </li>
-              <li className="upperCaseBold borderBottom">Por que o evernote</li>
-              <li className="upperCaseBold borderBottom">Recursos</li>
-              <li className="upperCaseBold borderBottom">Para indivíduos</li>
-              <li className="upperCaseBold borderBottom">Para equipes</li>
+              {
+                token === '' &&
+                <>
+                  <li className="upperCaseBold borderBottom">Por que o evernote</li>
+                  <li className="upperCaseBold borderBottom">Recursos</li>
+                  <li className="upperCaseBold borderBottom">Para indivíduos</li>
+                  <li className="upperCaseBold borderBottom">Para equipes</li>
+                </>
+              }
             </ul>
           </li>
 
           <li className="navbarContainer2">
             <ul className="navbarContainerStyle">
-              <li className="displayHidden">
-                <NavLink 
-                  to={'/search'}
-                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
-                >Pesquisar</NavLink>
-              </li>
-              <li className="displayHidden">
-                <NavLink 
-                  to={'/login'}
-                  className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
-                >Entrar</NavLink>
-              </li>
-              <li>
-                <img 
-                  className="sandwichMenu" 
-                  src={ menu ? closeMenu : sandwichMenu }
-                  onClick={() => { menu ? setMenu(false) : setMenu(true)}}
-                />
-                <button type="button" className="btnDownload displayHidden">Baixar</button>
-              </li>
+              {
+                token === '' ?
+                <>
+                  <li className="displayHidden">
+                    <NavLink 
+                      to={'/search'}
+                      className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                    >Pesquisar</NavLink>
+                  </li>
+                  <li className="displayHidden">
+                    <NavLink 
+                      to={'/login'}
+                      className={({ isActive }) => isActive ? "navLinkActive" : "navLinkNormal"}
+                    >Entrar</NavLink>
+                  </li>
+                  <li>
+                    <img 
+                      className="sandwichMenu" 
+                      src={ menu ? closeMenu : sandwichMenu }
+                      onClick={() => { menu ? setMenu(false) : setMenu(true)}}
+                    />
+                    <button type="button" className="btnDownload displayHidden">Baixar</button>
+                  </li>
+                </>
+                :
+                <li className="upperCaseBold">
+                  <span>sair</span>
+                </li>
+              }
             </ul>
           </li>
         </ul>
