@@ -1,0 +1,16 @@
+.cardComponent {
+  border: 1px solid #00a82d;
+  border-radius: 7px;
+  width: 100%;
+  max-width: 400px;
+  min-height: 40px;
+  max-height: 70px;
+  padding: 10px;
+  color: #00a82d;
+  transition: .2s all ease;
+  word-break: break-all;
+}
+
+.cardComponent:hover {
+  box-shadow: 1px 1px 8px 1px rgba(0, 168, 45, 0.6);
+}
