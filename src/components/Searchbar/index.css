@@ -9,14 +9,23 @@
 }
 
 .searchInputTextStyle {
+  border-radius: 7px;
   padding-left: 10px;
   height: 35px;
+  border: 1px solid rgba(109, 109, 109, 0.2);
+  border-radius: 7px;
 }
 
 .searchInputBtnStyle {
   width: 100px;
   height: 35px;
+  border: 1px solid rgba(109, 109, 109, 0.2);
+  border-radius: 7px;
   color: black;
+}
+
+.searchInputBtnStyle:hover {
+  cursor: pointer;
 }
 
 .rangeContainer {
@@ -27,13 +36,36 @@
   height: 35px;
   padding: 8px;
   border: 1px dotted #d6d6d6;
+  border-radius: 7px;
 }
 
 .searchInputRangeStyle {
   max-width: 129px;
+  height: 35px;
   flex: 1;
 }
 
 .searchInputRangeStyle:hover {
   cursor: grab;
+}
+
+@media screen and (max-width: 600px) { 
+  .searchMenu {
+    flex-direction: column;
+    gap: 1.5em;
+    height: 170px;
+  }
+
+  .searchInputTextStyle, .searchInputBtnStyle, .rangeContainer {
+    height: 25px;
+  }
+
+  .searchInputRangeStyle {
+    height: 15px;
+  }
+
+  .rangeContainer > p {
+    font-size: 13px;
+  }
+
 }
