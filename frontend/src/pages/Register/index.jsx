@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate  } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Logo2 from '../../assets/logo2.svg';
 import Navbar from "../../components/Navbar";
 
 const Register = () => {
+  const { token } = useSelector(state => state.user);
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ confirmPassword, setConfirmPassword ] = useState('');
   const [ message, setMessage ] = useState('');
-
-  const navigate = useNavigate();
 
   const handlerRegister = () => {
     const content = {
@@ -45,6 +45,7 @@ const Register = () => {
   }
 
   return(
+    token === '' ?
     <>
       <Navbar />
       <main>
@@ -68,6 +69,8 @@ const Register = () => {
         </div>
       </main>
     </>
+    :
+    <Navigate to={'/'} />
   );
 }
 
