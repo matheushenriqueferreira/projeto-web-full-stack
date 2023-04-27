@@ -10,6 +10,11 @@ const Search = () => {
   const [ itemsQuantity, setItemsQuantity ] = useState('1');
   const [ message, setMessage ] = useState('');
   const [ annotations, setAnnotations ] = useState([]);
+  const [ search, setSearch ] = useState('');
+
+  const filteredList = annotations.length > 0 ?
+    annotations.filter(annotation => annotation.textNote.includes(search))
+    : [];
 
   useEffect(() => {
     axios.get('http://localhost:3000/annotations')
@@ -19,18 +24,20 @@ const Search = () => {
     .catch((error) => {
       setMessage(error);
     })
-  }, [])
+  }, []);
   
   return(
     <>
       <Navbar />
       <main>
-        <Searchbar quantity={itemsQuantity} setQuantity={setItemsQuantity} max={annotations.length} />
-        <div className="searchContent paddingContent">
-          {
-            annotations.slice(0, itemsQuantity).map((item) => <Card key={item._id} textNote={item.textNote} />)
-          }
-        </div>
+        <Searchbar inputSearchValue={search} setInputSearchValue={setSearch} quantity={itemsQuantity} setQuantity={setItemsQuantity} max={annotations.length} />
+        <article className="searchArticle paddingContent">
+          <section className="cardSection">
+            {
+              filteredList.slice(0, itemsQuantity).map((item, i) => <Card key={item._id} textNote={item.textNote} id={item.id} />)
+            }
+          </section>
+        </article>
       </main>
     </>
   );
