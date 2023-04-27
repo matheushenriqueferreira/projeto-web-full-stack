@@ -87,6 +87,11 @@
   border-radius: 7px;
   outline: none;
   resize: none;
+  transition: .2s all ease-in;
+}
+
+.textAreaStyle:focus {
+  border-color: rgba(109, 109, 109, 0.5);
 }
 
 .btnSaveAnnotation {
@@ -94,6 +99,10 @@
   padding: 0 10px;
   border: 1px solid rgba(109, 109, 109, 0.2);
   border-radius: 7px;
+}
+
+.btnSaveAnnotation:hover {
+  cursor: pointer;
 }
 
 .messageContainer {
