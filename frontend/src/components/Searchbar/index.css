@@ -49,6 +49,11 @@
   cursor: grab;
 }
 
+.searchbarErrorMessage {
+  font-size: 10px;
+  color: red;
+}
+
 @media screen and (max-width: 600px) { 
   .searchMenu {
     flex-direction: column;
