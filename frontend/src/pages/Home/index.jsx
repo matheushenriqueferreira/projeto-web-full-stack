@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 import './index.css';
@@ -8,6 +8,7 @@ import './index.css';
 import Navbar from "../../components/Navbar";
 import Searchbar from "../../components/Searchbar";
 import Card from "../../components/Card";
+import { logout } from "../../redux/userSlice";
 
 const Home = () => {
   const { token } = useSelector(state => state.user);
@@ -15,15 +16,45 @@ const Home = () => {
   const [ textNote, setTextNote ] = useState('');
   const [ message, setMessage ] = useState('');
   const [ annotations, setAnnotations ] = useState([]);
-  const [ itemsQuantity, setItemsQuantity ] = useState('1');
-
+  const [ tempList, setTempList ] = useState([]);
+  const [ itemsQuantity, setItemsQuantity ] = useState(1);
+  const [ search, setSearch ] = useState('');
+  const [ listMessage, setListMessage ] = useState('');
+  const [ count, setCount ] = useState(0);
+ 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSearchInput = (evt) => {
+    if(evt === '') {
+      setAnnotations(tempList);
+      setItemsQuantity(tempList.length);
+      tempList.length === 0 ? setListMessage(`Nenhuma anotação cadastrada`) : setListMessage('');
+    }
+  }
+
+  const handleSearchButton = () => {
+    axios.get(`http://localhost:3000/annotations/${search}`, {textNote: search})
+    .then((resp) => {
+      setAnnotations(resp.data.annotationExists);
+      setItemsQuantity(resp.data.annotationExists.length);
+      resp.data.annotationExists.length === 0 ? setListMessage(`Não foram encontradas anotações para o termo digitado: ${search}`) : setListMessage('');
+    })
+    .catch((error) => {
+      setAnnotations([]);
+      setMaxQuantity(0);
+      setItemsQuantity(0);
+      setListMessage(`Erro ao realizar busca`);
+    });
+  }
 
   const handleInsertAnnotations = () => {
-    if(textNote !== '') {      
+    if(textNote) {      
       axios.post('http://localhost:3000/auth/insert/annotations', { textNote }, { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
-        setMessage(resp.data.message);
+        setMessage('');
+        setTextNote('');
+        setCount(count + 1);
       })
       .catch((e) => {
         setMessage(e.response.data.message);
@@ -36,12 +67,31 @@ const Home = () => {
 
   useEffect(() => {
     if(token !== '') {
-      axios.get('http://localhost:3000/annotations')
+      axios.get('http://localhost:3000/auth/annotations', { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
-        setAnnotations(resp.data.annotationExists)
+        setAnnotations(resp.data.annotationExists);
+        setTempList(resp.data.annotationExists);
+        setItemsQuantity((resp.data.annotationExists).length);
+        resp.data.annotationExists.length === 0 ? setListMessage(`Nenhuma anotação cadastrada`) : setListMessage('');
+      })
+      .catch((error) => {
+        switch(error.response.status) {
+          case 401:
+            setMessage('Token expirou')
+            setTimeout(() => {
+              setMessage('');
+              dispatch(logout());
+            },2000)
+          break;
+          case 500:
+            setListMessage('Erro no servidor, não foi possível estabelecer uma conexão')
+          break;
+          default: setListMessage('Erro')
+          break;
+        }
       })
     }
-  }, []);
+  }, [count]);
 
   return(
     <>
@@ -61,7 +111,7 @@ const Home = () => {
             </article>
           :
             <>
-              <Searchbar quantity={itemsQuantity} setQuantity={setItemsQuantity} max={annotations.length} />
+              <Searchbar searchInputValue={search} setSearchInputValue={setSearch} quantity={itemsQuantity} setQuantity={setItemsQuantity} max={annotations.length} clickButton={handleSearchButton} handleSearchInput={handleSearchInput} />
               <div className="insertDataContainer">
                 <div className="textAreaContainer">
                   <textarea className="textAreaStyle" value={textNote} onChange={(evt) => setTextNote(evt.target.value)} maxLength="150" />
@@ -72,13 +122,14 @@ const Home = () => {
               <article className="homeArticle paddingContent">
                 <section className="cardSection">
                   {
-                    annotations.slice(0, itemsQuantity).map((item, i) => <Card key={item._id} textNote={item.textNote} id={item.id} />)
+                    annotations.length > 0 ? annotations.slice(0, itemsQuantity).map((item, i) => <Card key={item._id} textNote={item.textNote} />)
+                    :
+                    <p>{listMessage}</p>
                   }
                 </section>
               </article>
             </>
-        }
-        
+        }  
       </main>
     </>
   );
