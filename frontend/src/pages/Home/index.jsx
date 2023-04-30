@@ -42,7 +42,6 @@ const Home = () => {
     })
     .catch((error) => {
       setAnnotations([]);
-      setMaxQuantity(0);
       setItemsQuantity(0);
       setListMessage(`Erro ao realizar busca`);
     });
