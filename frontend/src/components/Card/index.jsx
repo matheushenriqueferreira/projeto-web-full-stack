@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import './index.css';
 
-const Card = ({ textNote }) => {  
+const Card = ({ textNote, id }) => {  
   return(
     <div className="cardComponent cardFlex">
-      <p>{textNote}</p>
+      <div className="cardId">
+        <p>Id: {id}</p>
+      </div>
+      <div className="cardNote">
+        <p>{textNote}</p>
+      </div>
     </div>
   );
 }

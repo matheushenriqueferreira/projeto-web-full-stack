@@ -1,29 +1,49 @@
 .cardFlex {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  gap: .1em;
 }
 
 .cardComponent {
   border: 1px solid #00a82d;
   border-radius: 7px;
+  padding: 5px;
   width: 100%;
   max-width: 400px;
   min-height: 40px;
-  max-height: 70px;
-  color: #00a82d;
+  max-height: 90px;
   transition: .2s all ease;
   word-break: break-all;
+  color: #FFFFFF;
+  transition: .5s all ease;
 }
 
 .cardComponent:hover {
+  display: flex;
+  color: #00a82d;
   box-shadow: 1px 1px 8px 1px rgba(0, 168, 45, 0.6);
+}
+
+.cardId {
+  width: 100%;
+  padding-left: 5px;
+  font-size: 9px;
+  display: flex;
+}
+
+.cardNote {
+  flex: 1;
+  color: #00a82d;
 }
 
 @media screen and (max-width: 600px) {
   .cardComponent {
-    height: 30px;
     min-height: 30px;
     font-size: 14px;
+  }
+  .cardId {
+    font-size: 7px;
   }
 }

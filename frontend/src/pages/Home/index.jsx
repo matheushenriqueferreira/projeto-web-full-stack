@@ -121,7 +121,7 @@ const Home = () => {
               <article className="homeArticle paddingContent">
                 <section className="cardSection">
                   {
-                    annotations.length > 0 ? annotations.slice(0, itemsQuantity).map((item, i) => <Card key={item._id} textNote={item.textNote} />)
+                    annotations.length > 0 ? annotations.slice(0, itemsQuantity).map((item, i) => <Card key={item._id} textNote={item.textNote} id={item._id} />)
                     :
                     <p>{listMessage}</p>
                   }
