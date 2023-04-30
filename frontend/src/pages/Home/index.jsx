@@ -34,17 +34,19 @@ const Home = () => {
   }
 
   const handleSearchButton = () => {
-    axios.get(`http://localhost:3000/annotations/${search}`, {textNote: search})
-    .then((resp) => {
-      setAnnotations(resp.data.annotationExists);
-      setItemsQuantity(resp.data.annotationExists.length);
-      resp.data.annotationExists.length === 0 ? setListMessage(`Não foram encontradas anotações para o termo digitado: ${search}`) : setListMessage('');
-    })
-    .catch((error) => {
-      setAnnotations([]);
-      setItemsQuantity(0);
-      setListMessage(`Erro ao realizar busca`);
-    });
+    if(search !== '') {
+      axios.get(`http://localhost:3000/annotations/${search}`, {textNote: search})
+      .then((resp) => {
+        setAnnotations(resp.data.annotationExists);
+        setItemsQuantity(resp.data.annotationExists.length);
+        resp.data.annotationExists.length === 0 ? setListMessage(`Não foram encontradas anotações para o termo digitado: ${search}`) : setListMessage('');
+      })
+      .catch((error) => {
+        setAnnotations([]);
+        setItemsQuantity(0);
+        setListMessage(`Erro ao realizar busca`);
+      });
+    }
   }
 
   const handleInsertAnnotations = () => {
