@@ -8,9 +8,9 @@ export class AnnotationController {
       return res.status(422).json({message: "Campo vazio"});
     }
 
-    try { 
-      const resInsert = await AnnotationModel.insert({textNote});
-      return res.status(resInsert.status).json({message: resInsert.message});
+    try {
+        const resInsert = await AnnotationModel.insert({textNote});
+        return res.status(resInsert.status).json({message: resInsert.message});
     }
     catch(error) {
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
@@ -22,7 +22,7 @@ export class AnnotationController {
       const annotationExists = await AnnotationModel.find();
       
       if(annotationExists) {
-        return res.status(201).json({annotationExists});
+        return res.status(200).json({annotationExists});
       }
       else {
         return res.status(404).json({message: 'Banco de dados vazio ou inexistente'});
@@ -33,13 +33,13 @@ export class AnnotationController {
     }
   }
 
-  static async getAnnotationsByName(req, res) {
-    const textNote = req.params.name;
+  static async getAnnotationsTextNote(req, res) {
+    const textNote = req.params.textNote;
     try {
-      const annotations = await AnnotationModel.find(textNote);
+      const annotationExists = await AnnotationModel.findTextNote(textNote);
     
-      if(annotations) {
-        return res.status(201).json({annotations});
+      if(annotationExists) {
+        return res.status(200).json({annotationExists});
       }
       else {
         return res.status(404).json({message: 'Anotação não encontrada'});

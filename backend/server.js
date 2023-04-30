@@ -17,7 +17,9 @@ app.post('/auth/insert/annotations', UserController.ensureAuthentication(), (req
 
 app.get('/annotations', (req, res) => AnnotationController.getAllAnnotations(req, res));
 
-app.get('/annotations/:textNote', (req, res) => AnnotationController.getPsychonautsByName(req, res));
+app.get('/auth/annotations', UserController.ensureAuthentication(), (req, res) => AnnotationController.getAllAnnotations(req, res));
+
+app.get('/annotations/:textNote', (req, res) => AnnotationController.getAnnotationsTextNote(req, res));
 
 app.use((req, res) => {
   res.status(404).json({ 
