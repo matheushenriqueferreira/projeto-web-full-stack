@@ -51,7 +51,7 @@ const Home = () => {
 
   const handleInsertAnnotations = () => {
     if(textNote) {      
-      axios.post('http://localhost:3000/auth/insert/annotations', { textNote }, { headers: {'Authorization': `Bearer ${token}`}})
+      axios.post('http://localhost:3000/annotations', { textNote }, { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
         setMessage('');
         setTextNote('');
@@ -68,7 +68,7 @@ const Home = () => {
 
   useEffect(() => {
     if(token !== '') {
-      axios.get('http://localhost:3000/auth/annotations', { headers: {'Authorization': `Bearer ${token}`}})
+      axios.get('http://localhost:3000/annotations', { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
         setAnnotations(resp.data.annotationExists);
         setTempList(resp.data.annotationExists);
