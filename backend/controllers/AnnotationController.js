@@ -1,4 +1,4 @@
-import { AnnotationModel } from '../model/AnnotationModel.js';
+import { AnnotationModel } from '../models/AnnotationModel.js';
 
 export class AnnotationController {
   static async insert(req, res) {
@@ -17,9 +17,9 @@ export class AnnotationController {
     }
   }
 
-  static async getAllAnnotations(req, res) {
+  static async findAll(req, res) {
     try {
-      const annotationExists = await AnnotationModel.find();
+      const annotationExists = await AnnotationModel.findAll();
       
       if(annotationExists) {
         return res.status(200).json({annotationExists});
@@ -33,10 +33,10 @@ export class AnnotationController {
     }
   }
 
-  static async getAnnotationsTextNote(req, res) {
+  static async findByTextNote(req, res) {
     const textNote = req.params.textNote;
     try {
-      const annotationExists = await AnnotationModel.findTextNote(textNote);
+      const annotationExists = await AnnotationModel.findByTextNote(textNote);
     
       if(annotationExists) {
         return res.status(200).json({annotationExists});

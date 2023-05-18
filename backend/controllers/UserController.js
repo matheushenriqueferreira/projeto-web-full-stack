@@ -1,4 +1,4 @@
-import { UserModel } from "../model/UserModel.js";
+import { UserModel } from "../models/UserModel.js";
 import jsonwebtoken from 'jsonwebtoken';
 import { expressjwt } from "express-jwt";
 import * as dotenv from 'dotenv';
@@ -8,7 +8,7 @@ dotenv.config();
 const secret = process.env.SECRET;
 
 export class UserController {
-  static async registration(req, res) {
+  static async register(req, res) {
     const { userEmail, userPassword, userConfirmPassword } = req.body;
   
     if(!userEmail) {

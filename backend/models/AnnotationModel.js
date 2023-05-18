@@ -16,7 +16,7 @@ export class AnnotationModel {
     return { status: 201, message: 'Anotação adicionada com sucesso' };
   }
 
-  static async find() {
+  static async findAll() {
     const client = new MongoClient(uri);
     const annotationExists = await client.db(dbName).collection('annotations').find().toArray();
     
@@ -24,7 +24,7 @@ export class AnnotationModel {
     return (annotationExists ? annotationExists : null);
   }
 
-  static async findTextNote(textNote) {
+  static async findByTextNote(textNote) {
     const client = new MongoClient(uri);
 
     const annotationExists = await client.db(dbName).collection('annotations').find({ textNote: { $eq: textNote}}).toArray();
