@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.fltl8n2.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb://mongo/`;
 const dbName = process.env.DB_NAME;
 
 export class AnnotationModel {

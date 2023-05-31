@@ -2,6 +2,7 @@ import { UserModel } from "../models/UserModel.js";
 import jsonwebtoken from 'jsonwebtoken';
 import { expressjwt } from "express-jwt";
 import * as dotenv from 'dotenv';
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -33,9 +34,11 @@ export class UserController {
         return res.status(422).json({message: 'Já existe um usuário cadastrado com este e-mail!'});
       }
       else {
+        const hash = bcrypt.hashSync(userPassword, 10);
+
         const resInsert = await UserModel.insert({
           userEmail,
-          userPassword
+          userPassword: hash
         });
         return res.status(resInsert.status).json({message: resInsert.message});
       }
@@ -60,18 +63,19 @@ export class UserController {
       if(!user) {
         return res.status(404).json({message: 'Não foi encontrado cadastro vinculado a este e-mail'});
       }
+
+      const match = await bcrypt.compare(userPassword, user.password);
       
       //Verificar senha
-      if(userPassword !== user.password) {
-        return res.status(422).json({message: 'Usuário ou senha incorretos.'});
-      }
-      else {
-        // Criar Token 
+      if(match) {
         const token = jsonwebtoken.sign({}, secret, {
           subject: `${user._id}`,
           expiresIn: "300s"
         });
         return res.status(200).json({message: 'Usuário autenticado', token});
+      }
+      else {        
+        return res.status(422).json({message: 'Usuário ou senha incorretos.'});
       }
     }
     catch(error) {
