@@ -58,7 +58,7 @@ const Register = () => {
             <input className={'registerLoginInputStyle'} type={'password'} placeholder={'Insira sua senha'} value={password} onChange={(e) => setPassword(e.target.value)} />
             <input className={'registerLoginInputStyle'} type={'password'} placeholder={'Confirmar senha'} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             <input className={'registerLoginInputBtnStyle'} type={'button'} value={"Cadastrar"} onClick={() => fieldChecks()} />
-            <p className="registerLoginMessage">{message}</p>
+            <p className={`${message === 'Conta criada com sucesso' ? 'registerLoginMessageGreen' : 'registerLoginMessage'}`}>{message}</p>
           </div>
           <div className="registerLoginContent3">
             <p>Já possui uma conta?</p>
