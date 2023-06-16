@@ -21,7 +21,7 @@ const Register = () => {
       userConfirmPassword: confirmPassword
     }
 
-    axios.post("http://localhost:3000/users", content)
+    axios.post("https://localhost:3000/users", content)
     .then((resp) => {
       setMessage(resp.data.message)
     })

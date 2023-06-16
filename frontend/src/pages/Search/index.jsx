@@ -23,22 +23,22 @@ const Search = () => {
 
   const handleSearchButton = () => {
     if(search !== '') {
-      axios.get(`http://localhost:3000/annotations/${search}`, {textNote: search})
+      axios.get(`https://localhost:3000/annotations/${search}`, {textNote: search})
       .then((resp) => {
         setAnnotations(resp.data.annotationExists);
         setItemsQuantity(resp.data.annotationExists.length);
-        resp.data.annotationExists.length === 0 ? setListMessage(`Não foram encontradas anotações para o termo digitado: ${search}`) : setListMessage('');
+        setListMessage('');
       })
       .catch((error) => {
         setAnnotations([]);
         setItemsQuantity(0);
-        setListMessage(`Erro ao realizar busca`);
+        setListMessage(error.response.data.message);
       });
     }
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3000/annotations')
+    axios.get('https://localhost:3000/annotations')
     .then((resp) => {
       setAnnotations(resp.data.annotationExists);
       setTempList(resp.data.annotationExists);

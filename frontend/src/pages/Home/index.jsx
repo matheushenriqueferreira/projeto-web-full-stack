@@ -35,23 +35,23 @@ const Home = () => {
 
   const handleSearchButton = () => {
     if(search !== '') {
-      axios.get(`http://localhost:3000/annotations/${search}`, {textNote: search})
+      axios.get(`https://localhost:3000/annotations/${search}`, {textNote: search})
       .then((resp) => {
         setAnnotations(resp.data.annotationExists);
         setItemsQuantity(resp.data.annotationExists.length);
-        resp.data.annotationExists.length === 0 ? setListMessage(`Não foram encontradas anotações para o termo digitado: ${search}`) : setListMessage('');
+        setListMessage('');
       })
       .catch((error) => {
         setAnnotations([]);
         setItemsQuantity(0);
-        setListMessage(`Erro ao realizar busca`);
+        setListMessage(error.response.data.message);
       });
     }
   }
 
   const handleInsertAnnotations = () => {
     if(textNote) {      
-      axios.post('http://localhost:3000/annotations', { textNote }, { headers: {'Authorization': `Bearer ${token}`}})
+      axios.post('https://localhost:3000/annotations', { textNote }, { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
         setMessage('');
         setTextNote('');
@@ -68,7 +68,7 @@ const Home = () => {
 
   useEffect(() => {
     if(token !== '') {
-      axios.get('http://localhost:3000/annotations', { headers: {'Authorization': `Bearer ${token}`}})
+      axios.get('https://localhost:3000/annotations', { headers: {'Authorization': `Bearer ${token}`}})
       .then((resp) => {
         setAnnotations(resp.data.annotationExists);
         setTempList(resp.data.annotationExists);

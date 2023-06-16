@@ -25,7 +25,7 @@ const Login = () => {
       userEmail: email,
       userPassword: password
     }
-    axios.post("http://localhost:3000/login", content)
+    axios.post("https://localhost:3000/login", content)
     .then((resp) => {
       dispatch(login({ email: email, token: resp.data.token }));
       navigate('/');
