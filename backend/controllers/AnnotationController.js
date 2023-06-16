@@ -34,15 +34,14 @@ export class AnnotationController {
   }
 
   static async findByTextNote(req, res) {
-    const textNote = req.params.textNote;
+    const textNote = req.textSanitize;
     try {
       const annotationExists = await AnnotationModel.findByTextNote(textNote);
-    
-      if(annotationExists) {
+      if(annotationExists.length !== 0) {
         return res.status(200).json({annotationExists});
       }
       else {
-        return res.status(404).json({message: 'Anotação não encontrada'});
+        return res.status(404).json({message: `Não foram encontradas anotações para o termo digitado: ${textNote}`});
       }
     }
     catch(error) {

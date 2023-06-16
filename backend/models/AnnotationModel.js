@@ -17,9 +17,8 @@ export class AnnotationModel {
   }
 
   static async findAll() {
-    const client = new MongoClient(uri);
+    const client = new MongoClient(uri, {minPoolSize: 0, maxPoolSize: 10});
     const annotationExists = await client.db(dbName).collection('annotations').find().toArray();
-    
     client.close();
     return (annotationExists ? annotationExists : null);
   }
