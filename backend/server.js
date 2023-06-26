@@ -16,23 +16,25 @@ const cache = expressRedisCache({
   prefix: 'redis-test',
   host: 'redis',
   port: 6379
-})
+});
 
-cache.invalidate = () => {
-  return (req, res, next) => {
-    const route_name = req.url;
-    if (!cache.connected) {
-      next();
-      return ;
-    }
-    cache.del(route_name, (err) => console.log(err));
-    next();
-  };
-};
+const deleteCache = (name) => {
+  cache.del(name, (error, entries) => {
+    console.log(`O cache "${name}" foi deletado."`);
+    return;
+  });
+}
+
+const invalidateCache = async (req, res, next) => {
+  const urlName = req.url;
+  deleteCache('annotations');
+  next();
+}
 
 const reqSanitize = (req, res, next) => {
   const { textNote } = req.params;
   req.textSanitize = sanitize.keepSpace(textNote);
+  res.express_redis_cache_name = req.textSanitize;
   next();
 }
 
@@ -40,11 +42,27 @@ app.post('/users', (req, res) => UserController.register(req, res));
 
 app.post('/login', (req, res) => UserController.login(req, res));
 
-app.post('/annotations', cache.invalidate(), UserController.ensureAuthentication(), (req, res) => AnnotationController.insert(req, res));
+app.post('/annotations', 
+  UserController.ensureAuthentication(), 
+  (req, res, next) => invalidateCache(req, res, next), 
+  (req, res) => AnnotationController.insert(req, res)
+);
 
-app.get('/annotations', (req, res) => AnnotationController.findAll(req, res));
+app.get('/annotations',
+  cache.route('annotations', 120),
+  (req, res) => AnnotationController.findAll(req, res)
+);
 
-app.get('/annotations/:textNote', (req, res, next) => reqSanitize(req, res, next), (req, res) => AnnotationController.findByTextNote(req, res));
+app.get('/annotations/:textNote',
+  (req, res, next) => reqSanitize(req, res, next),
+  cache.route(60),
+  async (req, res) => {
+    const result = await AnnotationController.findByTextNote(req, res)
+    if(result.json().statusCode === 404) {
+      deleteCache(req.textSanitize);
+    }
+  }
+);
 
 app.use((req, res) => {
   res.status(404).json({ 
@@ -59,5 +77,6 @@ const certConfig = {
 }
 
 https.createServer(certConfig, app).listen(3000, () => {
-  console.log('Server HTTPS');
+  console.log('Server HTTPS on.');
 });
+
