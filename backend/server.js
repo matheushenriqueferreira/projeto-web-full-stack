@@ -5,9 +5,11 @@ import { AnnotationController } from "./controllers/AnnotationController.js";
 import expressRedisCache from "express-redis-cache";
 import https from "https";
 import fs from "fs";
-import { sanitize }from 'string-sanitizer';
+import { sanitize } from 'string-sanitizer';
+import rateLimiterMiddleware from './middlewares/rateLimiter.js';
 
 const app = express();
+
 app.use(cors());
 app.disable('x-powered-by');
 app.use(express.json());
@@ -16,7 +18,7 @@ app.use(express.urlencoded({extended: false}));
 const cache = expressRedisCache({
   prefix: 'redis-test',
   host: 'redis',
-  port: 6379
+  port: 6379,
 });
 
 const deleteCache = (name) => {
@@ -41,7 +43,10 @@ const reqSanitize = (req, res, next) => {
 
 app.post('/users', (req, res) => UserController.register(req, res));
 
-app.post('/login', (req, res) => UserController.login(req, res));
+app.post('/login', 
+  async (req, res, next) => await rateLimiterMiddleware(req, res, next), 
+  (req, res) => UserController.login(req, res)
+);
 
 app.post('/annotations', 
   UserController.ensureAuthentication(), 
