@@ -18,7 +18,7 @@ const rateLimiterMiddleware = async (req, res, next) => {
     return next();
   }
   catch (error){
-    return res.status(429).json({message: 'Muitos pedidos. Tente mais tarde'});
+    return res.status(429).json({message: 'Muitas requisições. Tente mais tarde.'});
   }
 };
 
