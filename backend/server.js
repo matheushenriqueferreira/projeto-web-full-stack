@@ -2,11 +2,12 @@ import express from "express";
 import cors from "cors";
 import { UserController } from "./controllers/UserController.js";
 import { AnnotationController } from "./controllers/AnnotationController.js";
-import expressRedisCache from "express-redis-cache";
 import https from "https";
 import fs from "fs";
-import { sanitize } from 'string-sanitizer';
+
+import reqSanitize from "./middlewares/stringSanitizer.js";
 import rateLimiterMiddleware from './middlewares/rateLimiter.js';
+import cache, { deleteCache, invalidateCache } from "./middlewares/redis.js";
 
 const app = express();
 
@@ -14,32 +15,6 @@ app.use(cors());
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-
-const cache = expressRedisCache({
-  prefix: 'redis-test',
-  host: 'redis',
-  port: 6379,
-});
-
-const deleteCache = (name) => {
-  cache.del(name, (error, entries) => {
-    console.log(`O cache "${name}" foi deletado."`);
-    return;
-  });
-}
-
-const invalidateCache = async (req, res, next) => {
-  const urlName = req.url;
-  deleteCache('annotations');
-  next();
-}
-
-const reqSanitize = (req, res, next) => {
-  const { textNote } = req.params;
-  req.textSanitize = sanitize.keepSpace(textNote);
-  res.express_redis_cache_name = req.textSanitize;
-  next();
-}
 
 app.post('/users', (req, res) => UserController.register(req, res));
 
@@ -84,5 +59,6 @@ const certConfig = {
 
 https.createServer(certConfig, app).listen(3000, () => {
   console.log('Server HTTPS on.');
+  console.log(cache.connected);
 });
 
