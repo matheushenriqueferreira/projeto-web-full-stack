@@ -9,6 +9,7 @@ import Navbar from "../../components/Navbar";
 import Searchbar from "../../components/Searchbar";
 import Card from "../../components/Card";
 import { logout } from "../../redux/userSlice";
+import MessageCard from "../../components/MessageCard";
 
 const Home = () => {
   const { token } = useSelector(state => state.user);
@@ -129,6 +130,9 @@ const Home = () => {
                   }
                 </section>
               </article>
+              <div className="mainMessage">
+                <MessageCard />
+              </div>
             </>
         }  
       </main>
