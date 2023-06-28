@@ -4,6 +4,7 @@ import { UserController } from "./controllers/UserController.js";
 import { AnnotationController } from "./controllers/AnnotationController.js";
 import https from "https";
 import fs from "fs";
+import { Server } from "socket.io";
 
 import reqSanitize from "./middlewares/stringSanitizer.js";
 import rateLimiterMiddleware from './middlewares/rateLimiter.js';
@@ -63,7 +64,21 @@ const certConfig = {
   key: fs.readFileSync('SSL/code.key')
 }
 
-https.createServer(certConfig, app).listen(3000, () => {
-  console.log('Server HTTPS on.');
+const server = https.createServer(certConfig, app);
+
+const webSocket = new Server(server, {
+  cors: {
+    origin: "https://localhost:5173",
+    methods: ["GET", "POST"]
+  }
 });
 
+webSocket.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("send_message", (data) => {
+    socket.broadcast.emit("receive_message", data)
+  });
+});
+
+server.listen(3000, () => console.log('Server HTTPS on.'));
