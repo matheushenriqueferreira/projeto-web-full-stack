@@ -1,15 +1,16 @@
 import { RateLimiterMongo } from "rate-limiter-flexible";
 import { MongoClient } from "mongodb";
+import logger from "../controllers/logger.js";
 
 const client = MongoClient.connect(
   'mongodb://mongo/'
 );
-  
+
 const rateLimiterMongo = new RateLimiterMongo({
   storeClient: client,
   dbName: 'projeto',
-  points: 3,
-  duration: 10,
+  points: 5,
+  duration: 30,
 });
 
 const rateLimiterMiddleware = async (req, res, next) => {
@@ -17,7 +18,9 @@ const rateLimiterMiddleware = async (req, res, next) => {
     await rateLimiterMongo.consume(req.ip);
     return next();
   }
-  catch (error){
+  catch (error) {
+    const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    logger.log('warn', `Requisições suspeitas no IP ${req.ip} em ${fullUrl}.`);
     return res.status(429).json({message: 'Muitas requisições. Tente mais tarde.'});
   }
 };

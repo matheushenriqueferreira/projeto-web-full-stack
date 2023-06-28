@@ -4,6 +4,8 @@ import { expressjwt } from "express-jwt";
 import * as dotenv from 'dotenv';
 import bcrypt from "bcrypt";
 
+import logger from "./logger.js";
+
 dotenv.config();
 
 const secret = process.env.SECRET;
@@ -40,10 +42,16 @@ export class UserController {
           userEmail,
           userPassword: hash
         });
+        
+        const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        logger.log('info', `Usuário: ${resInsert.id} criado com sucesso no IP ${req.ip} em ${fullUrl}.`);
+        
         return res.status(resInsert.status).json({message: resInsert.message});
       }
     }
     catch(error) {
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('error', `Erro no servidor ao tentar cadastrar um usuário em ${fullUrl}.`);
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
     }
   }
@@ -72,6 +80,10 @@ export class UserController {
           subject: `${user._id}`,
           expiresIn: "300s"
         });
+
+        const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        logger.log('info', `Usuário: ${user._id.toString()} autenticado com sucesso no IP ${req.ip} em ${fullUrl}.`);
+        
         return res.status(200).json({message: 'Usuário autenticado', token});
       }
       else {        
@@ -79,6 +91,8 @@ export class UserController {
       }
     }
     catch(error) {
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('error', `Erro no servidor ao tentar fazer login em ${fullUrl}.`);
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
     }
   }

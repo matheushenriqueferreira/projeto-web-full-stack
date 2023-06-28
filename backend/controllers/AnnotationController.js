@@ -1,4 +1,5 @@
 import { AnnotationModel } from '../models/AnnotationModel.js';
+import logger from './logger.js';
 
 export class AnnotationController {
   static async insert(req, res) {
@@ -9,10 +10,14 @@ export class AnnotationController {
     }
 
     try {
-        const resInsert = await AnnotationModel.insert({textNote});
-        return res.status(resInsert.status).json({message: resInsert.message});
+      const resInsert = await AnnotationModel.insert({textNote});
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('info', `Anotação com id: ${resInsert.id} foi inserida com sucesso no IP ${req.ip} em ${fullUrl}.`);
+      return res.status(resInsert.status).json({message: resInsert.message});
     }
     catch(error) {
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('error', `Erro no servidor durante a inserção de anotação em ${fullUrl}.`);
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
     }
   }
@@ -29,6 +34,8 @@ export class AnnotationController {
       }
     }
     catch(error) {
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('error', `Erro no servidor ao tentar pegar todas as anotações em ${fullUrl}.`);
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
     }
   }
@@ -45,6 +52,8 @@ export class AnnotationController {
       }
     }
     catch(error) {
+      const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+      logger.log('error', `Erro no servidor ao pesquisar as anotações em ${fullUrl}.`);
       return res.status(500).json({message: 'Aconteceu um erro no servidor'});
     }
   }

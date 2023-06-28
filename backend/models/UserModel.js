@@ -15,13 +15,13 @@ export class UserModel {
   static async insert(content) {
     const client = new MongoClient(uri, poolConfig);
     
-    await client.db(dbName).collection('users').insertOne({ 
+    const { insertedId } = await client.db(dbName).collection('users').insertOne({ 
       email: content.userEmail,
       password: content.userPassword
     });
-
+    
     client.close();
-    return { status: 201, message: 'Conta criada com sucesso' }
+    return { status: 201, message: 'Conta criada com sucesso', id: insertedId.toString() }
   }
 
   static async findOne(userEmail) {

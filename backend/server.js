@@ -9,6 +9,12 @@ import reqSanitize from "./middlewares/stringSanitizer.js";
 import rateLimiterMiddleware from './middlewares/rateLimiter.js';
 import cache, { deleteCache, invalidateCache } from "./middlewares/redis.js";
 
+const dir = "./logs";
+
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+}
+
 const app = express();
 
 app.use(cors());
@@ -19,7 +25,7 @@ app.use(express.urlencoded({extended: false}));
 app.post('/users', (req, res) => UserController.register(req, res));
 
 app.post('/login', 
-  async (req, res, next) => await rateLimiterMiddleware(req, res, next), 
+  async (req, res, next) => await rateLimiterMiddleware(req, res, next),
   (req, res) => UserController.login(req, res)
 );
 
@@ -59,6 +65,5 @@ const certConfig = {
 
 https.createServer(certConfig, app).listen(3000, () => {
   console.log('Server HTTPS on.');
-  console.log(cache.connected);
 });
 
