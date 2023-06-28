@@ -153,6 +153,12 @@
     font-size: 12px;
     height: 20px;
   }
+
+  .mainMessage {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
 }
 
 @media screen and (min-width: 960px) {

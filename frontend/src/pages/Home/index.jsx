@@ -12,7 +12,7 @@ import { logout } from "../../redux/userSlice";
 import MessageCard from "../../components/MessageCard";
 
 const Home = () => {
-  const { token } = useSelector(state => state.user);
+  const { token, userEmail } = useSelector(state => state.user);
 
   const [ textNote, setTextNote ] = useState('');
   const [ message, setMessage ] = useState('');
@@ -131,7 +131,7 @@ const Home = () => {
                 </section>
               </article>
               <div className="mainMessage">
-                <MessageCard />
+                <MessageCard userEmail={userEmail} />
               </div>
             </>
         }  
